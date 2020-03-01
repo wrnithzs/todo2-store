@@ -1,6 +1,7 @@
 <template>
   <div>
     <ul>
+      <div v-if="showTodolist">
       <h1>show todos</h1>
       <li v-for=" (todo, index) in allTodos" :key="index" class="card mb-1">
         <div class="card-body">
@@ -8,44 +9,52 @@
           <p class="card-text">detail: {{todo.detail}}</p>
           <div class="row-center">
             <div class="col-auto-mr-auto">
+              <!-- button in list op-->
               <button
                 v-on:click="deleteTodo(index)"
                 type="button"
                 class="btn btn-danger"
               >Delete</button>&nbsp;
               <button
-                v-on:click="showEdit = true"
+                v-on:click="edit(index)"
                 type="button"
                 class="btn btn-warning"
               >Edit</button>&nbsp;
-             <!-- <router-link :to="{name: 'Edit', params: { id: todo.id} }"
+              <!-- button in list end -->
+             <!-- <router-link :to="{name: 'Edit', params: { id: index} }"
               class="btn btn-warning" >Edit</router-link>&nbsp; -->
             </div>
           </div>
-      </div>
+        </div>
       </li>
-    </ul>
-
+    </div>
+      <div v-if="showAddInput">
+      <input  type="text" placeholder="Enter a new id" v-model="todo.id"  />&nbsp;
       <input  type="text" placeholder="Enter a new Task" v-model="todo.task"  />&nbsp;
       <input  type="text" placeholder="Enter a new Details" v-model="todo.detail"  /><br><br>
       <button class="btn btn-info" @click="save">Add Todos</button>
-    <br />
-        <br>
+      <br>
+      </div>
+    </ul>
+    <!-- out of list  add new todo-->
+        <!-- edit section -->
         <div v-if="showEdit">
         <div class="form-group">
-        <label>Edit Todo</label>
-        <label for="exampleInputEmail1"> Edit Input Todo</label>
-        <input type="text" v-model="edittask" class="form-control" />
-        <br />
-        <label>Edit Details</label>
-        <input type="text" v-model="editdetail" class="form-control" />
+          <label > Edit Input ID</label>
+          <input type="text" v-model="edittodo.id" class="form-control" />
+          <br />
+          <label > Edit Input Todo</label>
+          <input type="text" v-model="edittodo.task" class="form-control" />
+          <br />
+          <label>Edit Details</label>
+          <input type="text" v-model="edittodo.detail" class="form-control" />
+        </div>
+        <button
+          v-on:click="update"
+          type="button"
+          class="btn btn-primary"
+        >Save Edit</button>
       </div>
-      <button
-        v-on:click="updateTodo(index)"
-        type="button"
-        class="btn btn-primary"
-      >Save Edit</button>
-    </div>
   </div>
 </template>
 
@@ -60,16 +69,24 @@ export default {
         task: '',
         detail: ''
       },
-      newID: 2,
+      edittodo: {
+        id: '',
+        task: '',
+        detail: ''
+      },
+      editIndex: undefined,
       showEdit: false,
-      edittask: '',
-      editdetail: ''
+      showTodolist: true,
+      showAddInput: true
     }
   },
   computed: {
     ...mapGetters({
       allTodos: 'allTodos'
     })
+    // ...mapState({
+    //   todos: 'todos'
+    // })
   },
   methods: {
     ...mapActions({
@@ -79,16 +96,38 @@ export default {
     }),
     save () {
       this.addTodo(this.todo)
-      this.newID++
       this.todo = {
         id: '',
         task: '',
         detail: ''
       }
-      // this.$refs.item.focus()
     },
-    edit () {
-      this.editTodo(this)
+    edit (index) {
+      this.edittodo = this.allTodos[index]
+      this.editIndex = index
+      this.showEdit = true
+      this.showTodolist = true
+      this.showAddInput = false
+      console.log('index:' + this.editIndex)
+      console.log(this.edittodo)
+      console.log(this.allTodos[index])
+    },
+    update () {
+      if (this.editIndex !== undefined) {
+        console.log('updateindex:' + this.editIndex)
+      }
+      // var index = this.editInde
+      console.log(this.allTodos[this.editIndex])
+      // this.allTodos[index] = this.edittodo
+      // console.log('update!!!')
+      this.showTodolist = true
+      this.showEdit = false
+      this.showAddInput = true
+      this.edittodo = {
+        id: '',
+        task: '',
+        detail: ''
+      }
     }
   }
 }

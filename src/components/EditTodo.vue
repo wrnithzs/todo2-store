@@ -1,28 +1,16 @@
 <template>
   <div>
-    <form @submit.prevent="editTodo()">
-      <div class="form-group">
-        <label>Edit Todo</label>
-        <input v-model="editTask" type="text" class="form-control" />
-        <label for="todoTitle" class="form-text text-muted">
-          <small>* Required</small>
-        </label>
-        <br />
-      </div>
-      <div class="form-group-center">
-        <label>Edit Details</label>
-        <input v-model="editDetails" type="text" class="form-control" />
-        <label for="todoTitle" class="form-text text-muted">
-          <small>* Required</small>
-        </label>
-        <br />
-      </div>
-    </form>
-    <router-link to="/">
-      <button type="summit" class="btn btn-warning">Cancel Edit</button>
-    </router-link>&nbsp;
-    <!-- linkto saveEdit-->
-    <button type="summit" class="btn btn-primary" v-on:click="editTodo()">Save Edit</button>
+    <div class="form-group">
+      <label>Input Todo</label>
+      <input v-model="todo.task" @click="createError = false" type="text" class="form-control" />
+      <small class="form-text text-muted">Required*</small>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <input v-model="todo.detail" type="text" class="form-control" />
+    </div>
+    <button class="btn btn-primary" >Cancel</button>&nbsp;
+    <button class="btn btn-primary" @click="save">Save</button>
   </div>
 </template>
 
@@ -30,11 +18,15 @@
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Edit',
+  mounted () {
+  },
   data () {
     return {
-      newID: 2,
-      editTask: '',
-      editDetails: ''
+      todo: {
+        id: '',
+        task: '',
+        detail: ''
+      }
     }
   },
   computed: {
@@ -44,8 +36,18 @@ export default {
   },
   methods: {
     ...mapActions({
+      addTodo: 'addTodo',
       editTodo: 'editTodo'
-    })
+    }),
+    save () {
+      this.editTodo(this.todo)
+      this.newID++
+      this.todo = {
+        id: '',
+        task: '',
+        detail: ''
+      }
+    }
   }
 }
 </script>

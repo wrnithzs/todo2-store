@@ -14,32 +14,31 @@ export default new Vuex.Store({
       },
       {
         id: 2,
-        task: ' "Organize the living room',
+        task: 'Organize the living room',
         detail: 'BBBB'
       }
     ]
   },
   mutations: {
-    'ADD_TODO' (state, payload) {
-      var newTodo = {
-        id: payload.id,
-        task: payload.task,
-        detail: payload.detail
-      }
-      state.todos.push(newTodo)
+    'ADD_TODO' (state, todo) {
+      // var newTodo = {
+      //   id: todo.id,
+      //   task: todo.task,
+      //   detail: todo.detail
+      // }
+      console.log('aaa')
+      state.todos.push(todo)
     },
     'DELETE_TODO' (state, index) {
       state.todos.splice(index, 1)
+      console.log(index)
+    },
+    'EDIT_TODO' (state, edittodo) {
+      var index = state.todos.findIndex(item => item.id === edittodo.id)
+      state.todos[index] = edittodo
     }
+
   },
-  // 'EDIT_TODO' (state, payload) {
-  //   state.todos = state.todos.map(todo => {
-  //     if (todo.id === payload.id) {
-  //       return Object.assign({}, todo, payload.data)
-  //     }
-  //     return todo
-  //   })
-  // },
   // 'UPDATE_TODO' (state, payload) {
   //   Object.assign(state.todos[payload.index], { task: payload.task, detail: payload.detail })
   // },
@@ -50,8 +49,8 @@ export default new Vuex.Store({
     deleteTodo ({ commit }, index) {
       commit('DELETE_TODO', index)
     },
-    editTodo ({ commit }, todo, index) {
-      commit('UPDATE_TODO', todo, index)
+    editTodo ({ commit }, edittodo) {
+      commit('EDIT_TODO', edittodo)
     }
   },
   getters: {
