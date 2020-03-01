@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// const db = require('../firebase')
-
+// import { db } from '../firebase'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -19,6 +18,11 @@ export default new Vuex.Store({
       }
     ]
   },
+  // firestore () {
+  //   return {
+  //     todos: db.collection('todos')
+  //   }
+  // },
   mutations: {
     'ADD_TODO' (state, todo) {
       // var newTodo = {
@@ -26,17 +30,20 @@ export default new Vuex.Store({
       //   task: todo.task,
       //   detail: todo.detail
       // }
-      console.log('aaa')
       state.todos.push(todo)
     },
     'DELETE_TODO' (state, index) {
       state.todos.splice(index, 1)
       console.log(index)
     },
-    'EDIT_TODO' (state, edittodo) {
-      var index = state.todos.findIndex(item => item.id === edittodo.id)
+    'EDIT_TODO' (state, edittodo, index) {
       state.todos[index] = edittodo
+      console.log('store edit')
+      console.log(edittodo)
     }
+    // 'LOAD_TODO' (state, todo) {
+    //   state.todos = todo
+    // }
 
   },
   // 'UPDATE_TODO' (state, payload) {
@@ -49,8 +56,11 @@ export default new Vuex.Store({
     deleteTodo ({ commit }, index) {
       commit('DELETE_TODO', index)
     },
-    editTodo ({ commit }, edittodo) {
-      commit('EDIT_TODO', edittodo)
+    editTodo ({ commit }, edittodo, index) {
+      commit('EDIT_TODO', edittodo, index)
+    },
+    uploadTodo ({ commit }, edittodo) {
+      commit('UPLOAD_TODO', edittodo)
     }
   },
   getters: {

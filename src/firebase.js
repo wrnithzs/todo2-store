@@ -12,8 +12,8 @@ var firebaseConfig = {
 }
 
 firebase.initializeApp(firebaseConfig)
-const fb = firebase.firestore()
+const db = firebase.firestore()
 
 export {
-    fb
+  db
 }

@@ -91,8 +91,8 @@ export default {
   methods: {
     ...mapActions({
       addTodo: 'addTodo',
-      deleteTodo: 'deleteTodo'
-      // editTodo: 'editTodo'
+      deleteTodo: 'deleteTodo',
+      editTodo: 'editTodo'
     }),
     save () {
       this.addTodo(this.todo)
@@ -103,23 +103,20 @@ export default {
       }
     },
     edit (index) {
-      this.edittodo = this.allTodos[index]
+      const todo = this.allTodos[index]
+      this.edittodo = todo
       this.editIndex = index
       this.showEdit = true
       this.showTodolist = true
       this.showAddInput = false
       console.log('index:' + this.editIndex)
       console.log(this.edittodo)
-      console.log(this.allTodos[index])
     },
     update () {
       if (this.editIndex !== undefined) {
         console.log('updateindex:' + this.editIndex)
+        this.editTodo(this.edittodo, this.editIndex)
       }
-      // var index = this.editInde
-      console.log(this.allTodos[this.editIndex])
-      // this.allTodos[index] = this.edittodo
-      // console.log('update!!!')
       this.showTodolist = true
       this.showEdit = false
       this.showAddInput = true
