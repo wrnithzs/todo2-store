@@ -16,16 +16,8 @@
               &nbsp;
             </div>
             <div class="col-auto">
-              <button
-                v-if="index !== 0"
-                v-on:click="moveup(index)"
-                class="btn btn-outline-info"
-              >Up</button>&nbsp;
-              <button
-                v-if="index !== allTodos.length-1"
-                v-on:click="movedown(index)"
-                class="btn btn-outline-info"
-              >Down</button>
+              <button v-if="index !== 0" v-on:click="moveup(index)" class="btn btn-outline-info">Up</button>&nbsp;
+              <button v-if="index !== allTodos.length-1" v-on:click="movedown(index)" class="btn btn-outline-info">Down</button>
               <router-view />
             </div>
           </div>

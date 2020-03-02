@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {
-  db
-} from '../firebase'
+import { db } from '../firebase'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -96,34 +94,22 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    addTodo ({
-      commit
-    }, todo) {
+    addTodo ({ commit }, todo) {
       commit('ADD_TODO', todo)
     },
-    deleteTodo ({
-      commit
-    }, todo) {
+    deleteTodo ({ commit }, todo) {
       commit('DELETE_TODO', todo)
     },
-    editTodo ({
-      commit
-    }, edittodo) {
+    editTodo ({ commit }, edittodo) {
       commit('EDIT_TODO', edittodo)
     },
-    loadTodos ({
-      commit
-    }) {
+    loadTodos ({ commit }) {
       commit('LOAD_TODO')
     },
-    moveup ({
-      commit
-    }, index) {
+    moveup ({ commit }, index) {
       commit('MOVEUP_TODO', index)
     },
-    movedown ({
-      commit
-    }, index) {
+    movedown ({ commit }, index) {
       commit('MOVEDOWN_TODO', index)
     }
   },
