@@ -5,7 +5,7 @@
       <h1>show todos</h1>
       <li v-for=" (todo, index) in allTodos" :key="index" class="card mb-1">
         <div class="card-body">
-          <p class="card-title">Task: {{todo.task}}</p>
+          <p class="card-title">Task: {{todo.id}}: {{todo.task}}</p>
           <p class="card-text">detail: {{todo.detail}}</p>
           <div class="row-center">
             <div class="col-auto-mr-auto">
@@ -15,20 +15,21 @@
                 type="button"
                 class="btn btn-danger"
               >Delete</button>&nbsp;
-              <!-- <button
+              <button
                 v-on:click="edit(index)"
                 type="button"
                 class="btn btn-warning"
-              >Edit</button>&nbsp; -->
+              >Edit</button>&nbsp;
               <!-- button in list end -->
-             <router-link :to="{name: 'Edit', params: { id: index, task: todo.task, detail: todo.detail} }"
-              class="btn btn-warning" >Edit</router-link>&nbsp;
+             <!-- <router-link :to="{name: 'Edit', params: { id: index} }"
+              class="btn btn-warning" >Edit</router-link>&nbsp; -->
             </div>
           </div>
         </div>
       </li>
     </div>
       <div v-if="showAddInput">
+      <input  type="text" placeholder="Enter a new id" v-model="todo.id"  />&nbsp;
       <input  type="text" placeholder="Enter a new Task" v-model="todo.task"  />&nbsp;
       <input  type="text" placeholder="Enter a new Details" v-model="todo.detail"  /><br><br>
       <button class="btn btn-info" @click="save">Add Todos</button>
@@ -37,7 +38,7 @@
     </ul>
     <!-- out of list  add new todo-->
         <!-- edit section -->
-        <!-- <div v-if="showEdit">
+        <div v-if="showEdit">
         <div class="form-group">
           <label > Edit Input ID</label>
           <input type="text" v-model="edittodo.id" class="form-control" />
@@ -53,7 +54,7 @@
           type="button"
           class="btn btn-primary"
         >Save Edit</button>
-      </div> -->
+      </div>
   </div>
 </template>
 
@@ -64,10 +65,12 @@ export default {
   data () {
     return {
       todo: {
+        id: '',
         task: '',
         detail: ''
       },
       edittodo: {
+        id: '',
         task: '',
         detail: ''
       },
@@ -100,19 +103,19 @@ export default {
       }
     },
     edit (index) {
-      const todo = this.todo[index]
+      const todo = this.allTodos[index]
       this.edittodo = todo
       this.editIndex = index
       this.showEdit = true
       this.showTodolist = true
       this.showAddInput = false
       console.log('index:' + this.editIndex)
-      // console.log(this.edittodo)
+      console.log(this.edittodo)
     },
     update () {
       if (this.editIndex !== undefined) {
         console.log('updateindex:' + this.editIndex)
-        this.editTodo(this.editIndex)
+        this.editTodo(this.edittodo, this.editIndex)
       }
       this.showTodolist = true
       this.showEdit = false

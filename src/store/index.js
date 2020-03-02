@@ -7,10 +7,12 @@ export default new Vuex.Store({
   state: {
     todos: [
       {
+        id: 1,
         task: 'Buy food at the supermarket.',
         detail: 'AAAA'
       },
       {
+        id: 2,
         task: 'Organize the living room',
         detail: 'BBBB'
       }
@@ -22,26 +24,26 @@ export default new Vuex.Store({
   //   }
   // },
   mutations: {
-    'ADD_TODO' (state, payload) {
+    'ADD_TODO' (state, todo) {
       // var newTodo = {
       //   id: todo.id,
       //   task: todo.task,
       //   detail: todo.detail
       // }
-      state.todos.push(payload)
+      state.todos.push(todo)
     },
     'DELETE_TODO' (state, index) {
       state.todos.splice(index, 1)
       console.log(index)
     },
-    'EDIT_TODO' (state, editindex, edittodo) {
-      // console.log(state.todos[editindex])
-      console.log('store index' + editindex)
+    'EDIT_TODO' (state, edittodo, index) {
+      state.todos[index] = edittodo
+      console.log('store edit')
       console.log(edittodo)
-      // state.todos[editindex] = edittodo
-      // state.todos.splice(editindex, 1, edittodo)
-      // console.log(state.todos[editindex])
     }
+    // 'LOAD_TODO' (state, todo) {
+    //   state.todos = todo
+    // }
 
   },
   // 'UPDATE_TODO' (state, payload) {
@@ -54,8 +56,8 @@ export default new Vuex.Store({
     deleteTodo ({ commit }, index) {
       commit('DELETE_TODO', index)
     },
-    editTodo ({ commit }, editindex, edittodo) {
-      commit('EDIT_TODO', editindex, edittodo)
+    editTodo ({ commit }, edittodo, index) {
+      commit('EDIT_TODO', edittodo, index)
     },
     uploadTodo ({ commit }, edittodo) {
       commit('UPLOAD_TODO', edittodo)
