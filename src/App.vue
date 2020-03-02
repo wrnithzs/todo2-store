@@ -1,23 +1,25 @@
 <template>
   <div id="app">
     <div id="nav">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <router-link :to="{ name: 'Home' }" class="nav-link">
-            Home
-            <span class="sr-only">(current)</span>
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link :to="{ name: 'CreateTodo' }" class="nav-link">
-            CreateTodo
-            <span class="sr-only">(current)</span>
-          </router-link>
-        </li>
-      </ul>
-    </nav>    </div>
-    <router-view/>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <router-link :to="{ name: 'Home' }" class="nav-link">
+              Home
+              <span class="sr-only">(current)</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :to="{ name: 'CreateTodo' }" class="nav-link">
+              CreateTodo
+              <span class="sr-only">(current)</span>
+            </router-link>
+          </li>
+        </ul>
+      </nav>
+     <img alt="Vue logo" src="https://stickershop.line-scdn.net/stickershop/v1/product/6740/LINEStorePC/main.png;compress=true">
+    </div>
+    <router-view />
   </div>
 </template>
 <style>

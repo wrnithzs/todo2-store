@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { db } from '../firebase'
+import {
+  db
+} from '../firebase'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -27,13 +29,14 @@ export default new Vuex.Store({
   },
   mutations: {
     'ADD_TODO' (state, payload) {
-      // state.todos.push(payload)
       db.collection('todos').add({
         task: payload.task,
         details: payload.details
       })
-        .then(payload.task = '', payload.details = '')
-      // console.log('saved !!')
+        .then(payload.task = '', payload.details = '', console.log('Document successfully written!'))
+        .catch(function (error) {
+          console.error('Error writing document: ', error)
+        })
     },
     'DELETE_TODO' (state, payload) {
       db.collection('todos')
@@ -74,21 +77,54 @@ export default new Vuex.Store({
           })
         })
       state.todos = todolist
-      // console.log(state.todos)
+    },
+    'MOVEUP_TODO' (state, index) {
+      if (index === 0) {
+        return null
+      }
+      const todo = state.todos[index]
+      state.todos.splice(index, 1)
+      state.todos.splice(index - 1, 0, todo)
+    },
+    'MOVEDOWN_TODO' (state, index) {
+      if (index === state.todos.length - 1) {
+        return null
+      }
+      const todo = state.todos[index]
+      state.todos.splice(index, 1)
+      state.todos.splice(index + 1, 0, todo)
     }
   },
   actions: {
-    addTodo ({ commit }, todo) {
+    addTodo ({
+      commit
+    }, todo) {
       commit('ADD_TODO', todo)
     },
-    deleteTodo ({ commit }, todo) {
+    deleteTodo ({
+      commit
+    }, todo) {
       commit('DELETE_TODO', todo)
     },
-    editTodo ({ commit }, edittodo) {
+    editTodo ({
+      commit
+    }, edittodo) {
       commit('EDIT_TODO', edittodo)
     },
-    loadTodos ({ commit }) {
+    loadTodos ({
+      commit
+    }) {
       commit('LOAD_TODO')
+    },
+    moveup ({
+      commit
+    }, index) {
+      commit('MOVEUP_TODO', index)
+    },
+    movedown ({
+      commit
+    }, index) {
+      commit('MOVEDOWN_TODO', index)
     }
   },
   getters: {

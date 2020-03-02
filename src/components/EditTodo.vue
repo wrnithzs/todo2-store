@@ -40,7 +40,6 @@ export default {
       editTodo: 'editTodo'
     }),
     save () {
-      console.log(this.edittodo)
       this.editTodo(this.edittodo)
       this.edittodo = {
         id: '',

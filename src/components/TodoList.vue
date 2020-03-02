@@ -4,18 +4,29 @@
       <h1>show todos</h1>
       <li v-for=" (todo, index) in allTodos" :key="todo.id" class="card mb-1">
         <div class="card-body">
-          <p class="card-title">Task:{{index + 1}} {{todo.task}} </p>
+          <p class="card-title">Task:{{index + 1}} {{todo.task}}</p>
           <p class="card-text">detail: {{todo.details}}</p>
-          <div class="row-center">
+          <div class="row">
             <div class="col-auto-mr-auto">
-              <!-- button in list op-->
+              <router-link
+                :to="{name: 'Edit', params: { id: todo.id, task: todo.task, details: todo.details} }"
+                class="btn btn-warning"
+              >Edit</router-link>&nbsp;
+              <button v-on:click="dele(todo)" type="button" class="btn btn-danger">Delete</button>&nbsp;
+              &nbsp;
+            </div>
+            <div class="col-auto">
               <button
-                v-on:click="dele(todo)"
-                type="button"
-                class="btn btn-danger"
-              >Delete</button>&nbsp;
-             <router-link :to="{name: 'Edit', params: { id: todo.id, task: todo.task, details: todo.details} }"
-              class="btn btn-warning" >Edit</router-link>&nbsp;
+                v-if="index !== 0"
+                v-on:click="moveup(index)"
+                class="btn btn-outline-info"
+              >Up</button>&nbsp;
+              <button
+                v-if="index !== allTodos.length-1"
+                v-on:click="movedown(index)"
+                class="btn btn-outline-info"
+              >Down</button>
+              <router-view />
             </div>
           </div>
         </div>
@@ -48,11 +59,11 @@ export default {
   methods: {
     ...mapActions({
       deleteTodo: 'deleteTodo',
-      loadTodos: 'loadTodos'
+      loadTodos: 'loadTodos',
+      moveup: 'moveup',
+      movedown: 'movedown'
     }),
     dele (todo) {
-      console.log('hello')
-      console.log(todo.id)
       this.deleteTodo(todo.id)
       this.loadTodos()
     }

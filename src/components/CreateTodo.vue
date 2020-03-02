@@ -52,7 +52,6 @@ export default {
         task: '',
         detail: ''
       }
-      console.log('saved')
       this.$router.push({ path: '/' })
     }
   }

@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="https://stickershop.line-scdn.net/stickershop/v1/product/6740/LINEStorePC/main.png;compress=true">
     <todo-list/>
   </div>
 </template>
