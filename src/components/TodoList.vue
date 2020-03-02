@@ -5,7 +5,7 @@
       <h1>show todos</h1>
       <li v-for=" (todo, index) in allTodos" :key="index" class="card mb-1">
         <div class="card-body">
-          <p class="card-title">Task: {{todo.task}}</p>
+          <p class="card-title">Task:{{index + 1}} {{todo.task}}</p>
           <p class="card-text">detail: {{todo.detail}}</p>
           <div class="row-center">
             <div class="col-auto-mr-auto">

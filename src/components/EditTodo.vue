@@ -10,7 +10,7 @@
       <input v-model="edittodo.detail" type="text" class="form-control" />
     </div>
     <button class="btn btn-primary" >Cancel</button>&nbsp;
-    <button class="btn btn-primary" @click="save()">Save</button>
+    <button class="btn btn-primary" @click="save()">Save Edit</button>
   </div>
 </template>
 
@@ -40,7 +40,7 @@ export default {
     }),
     save () {
       console.log(this.edittodo)
-      console.log('index:' + this.editindex)
+      console.log('index:' + this.edittodo.index)
       this.editTodo(this.edittodo)
       this.edittodo = {
         task: '',
