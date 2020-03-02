@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'Edit',
   mounted () {
@@ -29,14 +29,8 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters({
-      allTodos: 'allTodos'
-    })
-  },
   methods: {
     ...mapActions({
-      addTodo: 'addTodo',
       editTodo: 'editTodo'
     }),
     save () {
