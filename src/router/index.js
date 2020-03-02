@@ -17,7 +17,7 @@ const routes = [
     component: CreateTodo
   },
   {
-    path: '/edit/:id/:task/:detail',
+    path: '/edit/:id/:task/:details',
     name: 'Edit',
     component: Edit
   }

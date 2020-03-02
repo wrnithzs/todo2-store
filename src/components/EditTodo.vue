@@ -2,14 +2,16 @@
   <div>
     <div class="form-group">
       <label>Input Todo</label>
-      <input v-model="edittodo.task" click="createError = false" type="text" class="form-control" />
+        <input v-model="edittodo.task" type="text" class="form-control" />
       <small class="form-text text-muted">Required*</small>
     </div>
     <div class="form-group">
       <label>Description</label>
-      <input v-model="edittodo.detail" type="text" class="form-control" />
+        <input v-model="edittodo.details" type="text" class="form-control" />
     </div>
-    <button class="btn btn-primary" >Cancel</button>&nbsp;
+    <router-link to="/">
+      <button type="summit" class="btn btn-warning">Cancel</button>
+    </router-link>&nbsp;
     <button class="btn btn-primary" @click="save()">Save Edit</button>
   </div>
 </template>
@@ -41,6 +43,7 @@ export default {
       console.log(this.edittodo)
       this.editTodo(this.edittodo)
       this.edittodo = {
+        id: '',
         task: '',
         details: ''
       }

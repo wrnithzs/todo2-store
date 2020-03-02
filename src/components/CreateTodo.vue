@@ -1,14 +1,62 @@
 <template>
   <div>
+    <form @submit.prevent="addTodo()">
+      <div class="form-group">
+        <label for="todoTitle">Input todo</label>
+        <br />
+        <input v-model="todo.task" type="text" class="form-control" />
+        <label for="todoTitle" class="form-text text-muted">
+          <small>* Required</small>
+        </label>
+        <br />
+      </div>
+      <div class="form-group">
+        <label for="todoTitle">Details todo</label>
+        <br />
+        <input v-model="todo.details" type="text" class="form-control" />
+        <label for="todoTitle" class="form-text text-muted">
+          <small>* Required</small>
+        </label>
+        <br />
+      </div>
+    </form>
+    <router-link to="/">
+      <button type="summit" class="btn btn-warning">Cancel</button>
+    </router-link>&nbsp;
+    <button type="summit" class="btn btn-primary" v-on:click="save">Save</button>
   </div>
 </template>
 
 <script>
-// import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
-  name: 'CreateTodo'
+  name: 'CreateTodo',
+  data () {
+    return {
+      todo: {
+        id: '',
+        task: '',
+        details: ''
+      }
+    }
+  },
+  methods: {
+    ...mapActions({
+      addTodo: 'addTodo',
+      loadTodos: 'loadTodos'
+    }),
+    save () {
+      this.addTodo(this.todo)
+      this.todo = {
+        id: '',
+        task: '',
+        detail: ''
+      }
+      console.log('saved')
+      this.$router.push({ path: '/' })
+    }
+  }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

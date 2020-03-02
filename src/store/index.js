@@ -33,7 +33,7 @@ export default new Vuex.Store({
         details: payload.details
       })
         .then(payload.task = '', payload.details = '')
-      console.log('saved !!')
+      // console.log('saved !!')
     },
     'DELETE_TODO' (state, payload) {
       db.collection('todos')
@@ -43,16 +43,21 @@ export default new Vuex.Store({
         .catch(function (error) {
           console.error('Error removing document: ', error)
         })
-      console.log('deleted!! ' + payload.id)
+      console.log('deleted!! ' + payload)
     },
     'EDIT_TODO' (state, payload) {
-      // console.log(state.todos[ed])
-      console.log(state.todos[payload.index])
-      console.log('store index')
-      console.log(payload)
-      state.todos[payload.index] = payload
-      // state.todos.splice(payload.index, 1, payload)
-      // console.log(state.todos[editindex])
+      db.collection('todos')
+        .doc(payload.id)
+        .update({
+          task: payload.task,
+          details: payload.details
+        })
+        .then(function () {
+          console.log('Document successfully updated!')
+        })
+        .catch(function (error) {
+          console.error('Error updating document: ', error)
+        })
     },
     'LOAD_TODO' (state) {
       const todolist = []
@@ -69,7 +74,7 @@ export default new Vuex.Store({
           })
         })
       state.todos = todolist
-      console.log(state.todos)
+      // console.log(state.todos)
     }
   },
   actions: {
