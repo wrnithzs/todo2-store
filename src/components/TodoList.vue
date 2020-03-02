@@ -3,15 +3,15 @@
     <ul>
       <div v-if="showTodolist">
       <h1>show todos</h1>
-      <li v-for=" (todo, index) in allTodos" :key="index" class="card mb-1">
+      <li v-for=" (todo, index) in allTodos" :key="todo.id" class="card mb-1">
         <div class="card-body">
           <p class="card-title">Task:{{index + 1}} {{todo.task}}</p>
-          <p class="card-text">detail: {{todo.detail}}</p>
+          <p class="card-text">detail: {{todo.details}}</p>
           <div class="row-center">
             <div class="col-auto-mr-auto">
               <!-- button in list op-->
               <button
-                v-on:click="deleteTodo(index)"
+                v-on:click="deleteTodo(todo.id)"
                 type="button"
                 class="btn btn-danger"
               >Delete</button>&nbsp;
@@ -21,7 +21,7 @@
                 class="btn btn-warning"
               >Edit</button>&nbsp; -->
               <!-- button in list end -->
-             <router-link :to="{name: 'Edit', params: { id: index, task: todo.task, detail: todo.detail} }"
+             <router-link :to="{name: 'Edit', params: { id: todo.id, task: todo.task, detail: todo.details} }"
               class="btn btn-warning" >Edit</router-link>&nbsp;
             </div>
           </div>
@@ -30,7 +30,7 @@
     </div>
       <div v-if="showAddInput">
       <input  type="text" placeholder="Enter a new Task" v-model="todo.task"  />&nbsp;
-      <input  type="text" placeholder="Enter a new Details" v-model="todo.detail"  /><br><br>
+      <input  type="text" placeholder="Enter a new Details" v-model="todo.details"  /><br><br>
       <button class="btn btn-info" @click="save">Add Todos</button>
       <br>
       </div>
@@ -61,15 +61,19 @@
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'TodoList',
+  mounted () {
+    this.loadTodos()
+    console.log(this.allTodos)
+  },
   data () {
     return {
       todo: {
         task: '',
-        detail: ''
+        details: ''
       },
       edittodo: {
         task: '',
-        detail: ''
+        details: ''
       },
       editIndex: undefined,
       showEdit: false,
@@ -81,15 +85,13 @@ export default {
     ...mapGetters({
       allTodos: 'allTodos'
     })
-    // ...mapState({
-    //   todos: 'todos'
-    // })
   },
   methods: {
     ...mapActions({
       addTodo: 'addTodo',
       deleteTodo: 'deleteTodo',
-      editTodo: 'editTodo'
+      editTodo: 'editTodo',
+      loadTodos: 'loadTodos'
     }),
     save () {
       this.addTodo(this.todo)
@@ -98,30 +100,7 @@ export default {
         task: '',
         detail: ''
       }
-    },
-    edit (index) {
-      const todo = this.todo[index]
-      this.edittodo = todo
-      this.editIndex = index
-      this.showEdit = true
-      this.showTodolist = true
-      this.showAddInput = false
-      console.log('index:' + this.editIndex)
-      // console.log(this.edittodo)
-    },
-    update () {
-      if (this.editIndex !== undefined) {
-        console.log('updateindex:' + this.editIndex)
-        this.editTodo(this.editIndex)
-      }
-      this.showTodolist = true
-      this.showEdit = false
-      this.showAddInput = true
-      this.edittodo = {
-        id: '',
-        task: '',
-        detail: ''
-      }
+      this.loadTodos()
     }
   }
 }

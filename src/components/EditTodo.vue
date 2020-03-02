@@ -20,17 +20,16 @@ export default {
   name: 'Edit',
   mounted () {
     const T = this
-    T.edittodo.index = this.$route.params.id
+    T.edittodo.id = this.$route.params.id
     T.edittodo.task = this.$route.params.task
-    T.edittodo.detail = this.$route.params.detail
+    T.edittodo.details = this.$route.params.details
   },
   data () {
     return {
-      editindex: undefined,
       edittodo: {
-        index: '',
+        id: '',
         task: '',
-        detail: ''
+        details: ''
       }
     }
   },
@@ -40,11 +39,10 @@ export default {
     }),
     save () {
       console.log(this.edittodo)
-      console.log('index:' + this.edittodo.index)
       this.editTodo(this.edittodo)
       this.edittodo = {
         task: '',
-        detail: ''
+        details: ''
       }
       this.editindex = null
       this.$router.push({ path: '/' })
