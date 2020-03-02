@@ -12,7 +12,7 @@
                 :to="{name: 'Edit', params: { id: todo.id, task: todo.task, details: todo.details} }"
                 class="btn btn-warning"
               >Edit</router-link>&nbsp;
-              <button v-on:click="dele(todo)" type="button" class="btn btn-danger">Delete</button>&nbsp;
+              <button v-on:click="del(todo)" type="button" class="btn btn-danger">Delete</button>&nbsp;
               &nbsp;
             </div>
             <div class="col-auto">
@@ -63,7 +63,7 @@ export default {
       moveup: 'moveup',
       movedown: 'movedown'
     }),
-    dele (todo) {
+    del (todo) {
       this.deleteTodo(todo.id)
       this.loadTodos()
     }
