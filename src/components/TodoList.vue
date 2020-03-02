@@ -1,7 +1,7 @@
 <template>
   <div>
+    <h1>TodoList Page</h1><br />
     <ul>
-      <h1>show todos</h1>
       <li v-for=" (todo, index) in allTodos" :key="todo.id" class="card mb-1">
         <div class="card-body">
           <p class="card-title">Task:{{index + 1}} {{todo.task}}</p>
@@ -12,7 +12,7 @@
                 :to="{name: 'Edit', params: { id: todo.id, task: todo.task, details: todo.details} }"
                 class="btn btn-warning"
               >Edit</router-link>&nbsp;
-              <button v-on:click="del(todo)" type="button" class="btn btn-danger">Delete</button>&nbsp;
+              <button @click="del(todo)" type="button" class="btn btn-danger">Delete</button>&nbsp;
               &nbsp;
             </div>
             <div class="col-auto">

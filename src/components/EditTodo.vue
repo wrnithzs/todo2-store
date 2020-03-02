@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Edit Page</h1><br />
     <div class="form-group">
       <label>Input Todo</label>
         <input v-model="edittodo.task" type="text" class="form-control" />
@@ -12,7 +13,7 @@
     <router-link to="/">
       <button type="summit" class="btn btn-warning">Cancel</button>
     </router-link>&nbsp;
-    <button class="btn btn-primary" @click="save()">Save Edit</button>
+    <button class="btn btn-info" @click="save()">Save Edit</button>
   </div>
 </template>
 

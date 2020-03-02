@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Create Page</h1><br />
     <form @submit.prevent="addTodo()">
       <div class="form-group">
         <label for="todoTitle">Input todo</label>
@@ -23,7 +24,7 @@
     <router-link to="/">
       <button type="summit" class="btn btn-warning">Cancel</button>
     </router-link>&nbsp;
-    <button type="summit" class="btn btn-primary" v-on:click="save">Save</button>
+    <button type="summit" class="btn btn-info" v-on:click="save">Save</button>
   </div>
 </template>
 
