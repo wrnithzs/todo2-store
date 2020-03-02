@@ -7,10 +7,12 @@ export default new Vuex.Store({
   state: {
     todos: [
       {
+        index: '0',
         task: 'Buy food at the supermarket.',
         detail: 'AAAA'
       },
       {
+        index: '1',
         task: 'Organize the living room',
         detail: 'BBBB'
       }
@@ -34,12 +36,11 @@ export default new Vuex.Store({
       state.todos.splice(index, 1)
       console.log(index)
     },
-    'EDIT_TODO' (state, editindex, edittodo) {
+    'EDIT_TODO' (state, payload) {
       // console.log(state.todos[editindex])
-      console.log('store index' + editindex)
-      console.log(edittodo)
-      // state.todos[editindex] = edittodo
-      // state.todos.splice(editindex, 1, edittodo)
+      console.log('store index')
+      console.log(payload)
+      state.todos.splice(payload.index, 1, payload)
       // console.log(state.todos[editindex])
     }
 
@@ -54,8 +55,8 @@ export default new Vuex.Store({
     deleteTodo ({ commit }, index) {
       commit('DELETE_TODO', index)
     },
-    editTodo ({ commit }, editindex, edittodo) {
-      commit('EDIT_TODO', editindex, edittodo)
+    editTodo ({ commit }, edittodo) {
+      commit('EDIT_TODO', edittodo)
     },
     uploadTodo ({ commit }, edittodo) {
       commit('UPLOAD_TODO', edittodo)
