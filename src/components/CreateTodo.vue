@@ -46,14 +46,16 @@ export default {
       addTodo: 'addTodo',
       loadTodos: 'loadTodos'
     }),
-    save () {
-      this.addTodo(this.todo)
-      this.todo = {
-        id: '',
-        task: '',
-        detail: ''
+    async save () {
+      const result = await this.addTodo(this.todo)
+      if (result === 'Document successfully written') {
+        this.todo = {
+          id: '',
+          task: '',
+          detail: ''
+        }
+        this.$router.push({ path: '/' })
       }
-      this.$router.push({ path: '/' })
     }
   }
 }

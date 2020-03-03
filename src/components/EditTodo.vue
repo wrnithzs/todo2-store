@@ -18,14 +18,17 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Edit',
-  mounted () {
-    const T = this
-    T.edittodo.id = this.$route.params.id
-    T.edittodo.task = this.$route.params.task
-    T.edittodo.details = this.$route.params.details
+  async mounted () {
+    const todoID = this.$route.params.id
+    if (todoID !== undefined) {
+      const todo = await this.getTodoDetail(todoID)
+      this.edittodo.id = todoID
+      this.edittodo.task = todo.task
+      this.edittodo.details = todo.details
+    }
   },
   data () {
     return {
@@ -38,18 +41,25 @@ export default {
   },
   methods: {
     ...mapActions({
-      editTodo: 'editTodo'
+      editTodo: 'editTodo',
+      getTodoDetail: 'getTodoDetail',
+      updateTodo: 'updateTodo'
     }),
-    save () {
-      this.editTodo(this.edittodo)
-      this.edittodo = {
-        id: '',
-        task: '',
-        details: ''
+    async save () {
+      const todoID = this.$route.params.id
+      if (todoID !== undefined) {
+        const result = await this.updateTodo(this.edittodo)
+        if (result === 'update success!') {
+          this.$router.push({ path: '/' })
+        } else {
+          console.log('save error!')
+        }
       }
-      this.editindex = null
-      this.$router.push({ path: '/' })
     }
+  },
+  computed: {
+    ...mapGetters({
+    })
   }
 }
 </script>

@@ -1,15 +1,17 @@
 <template>
   <div>
     <h1>TodoList Page</h1><br />
-    <ul>
+  <div v-if="isLoading === true ">
+    กำลังโหลดข้อมูลอยู่จ้า
+  </div>    <ul>
       <li v-for=" (todo, index) in allTodos" :key="todo.id" class="card mb-1">
         <div class="card-body">
-          <p class="card-title">Task:{{index + 1}} {{todo.task}}</p>
+          <p class="card-title">Task:{{index + 1}} {{todo.task}} </p>
           <p class="card-text">detail: {{todo.details}}</p>
           <div class="row">
             <div class="col-auto-mr-auto">
               <router-link
-                :to="{name: 'Edit', params: { id: todo.id, task: todo.task, details: todo.details} }"
+                :to="{name: 'Edit', params: { id: todo.id } }"
                 class="btn btn-warning"
               >Edit</router-link>&nbsp;
               <button @click="del(todo)" type="button" class="btn btn-danger">Delete</button>&nbsp;
@@ -31,16 +33,15 @@
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'TodoList',
-  mounted () {
-    this.loadTodos()
+  async mounted () {
+    this.isLoading = true
+    console.log(this.loadTodos())
+    await this.loadTodos()
+    this.isLoading = false
   },
   data () {
     return {
-      todo: {
-        id: '',
-        task: '',
-        details: ''
-      }
+      isLoading: false
     }
   },
   computed: {
@@ -55,9 +56,13 @@ export default {
       moveup: 'moveup',
       movedown: 'movedown'
     }),
-    del (todo) {
-      this.deleteTodo(todo.id)
-      this.loadTodos()
+    async del (todo) {
+      const result = await this.deleteTodo(todo.id)
+      if (result === 'delete success') {
+        this.loadTodos()
+      } else {
+        console.log('delete error')
+      } // this.loadTodos()
     }
   }
 }

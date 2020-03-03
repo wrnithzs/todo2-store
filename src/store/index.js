@@ -5,76 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    todos: [
-      // {
-      //   // index: '0',
-      //   id: '',
-      //   task: 'Buy food at the supermarket.',
-      //   detail: 'AAAA'
-      // },
-      // {
-      //   // index: '1',
-      //   id: '',
-      //   task: 'Organize the living room',
-      //   detail: 'BBBB'
-      // }
-    ]
-  },
-  firestore () {
-    return {
-      todos: db.collection('todos')
-    }
+    todos: []
+    // editingTodo: undefined
   },
   mutations: {
-    'ADD_TODO' (state, payload) {
-      db.collection('todos').add({
-        task: payload.task,
-        details: payload.details
-      })
-        .then(payload.task = '', payload.details = '', console.log('Document successfully written!'))
-        .catch(function (error) {
-          console.error('Error writing document: ', error)
-        })
+    'SET_TODO' (state, todos) {
+      state.todos = todos
     },
-    'DELETE_TODO' (state, payload) {
-      db.collection('todos')
-        .doc(payload)
-        .delete()
-        .then(function () {})
-        .catch(function (error) {
-          console.error('Error removing document: ', error)
-        })
-      console.log('deleted!! ' + payload)
-    },
-    'EDIT_TODO' (state, payload) {
-      db.collection('todos')
-        .doc(payload.id)
-        .update({
-          task: payload.task,
-          details: payload.details
-        })
-        .then(function () {
-          console.log('Document successfully updated!')
-        })
-        .catch(function (error) {
-          console.error('Error updating document: ', error)
-        })
-    },
-    'LOAD_TODO' (state) {
-      const todolist = []
-      db.collection('todos')
-        .get()
-        .then(function (querySnapshot) {
-          querySnapshot.forEach(function (doc) {
-            const todo = {
-              id: doc.id,
-              task: doc.data().task,
-              details: doc.data().details
-            }
-            todolist.push(todo)
-          })
-        })
-      state.todos = todolist
+    'SET_EDITING_TODO' (state, todo) {
+      state.editingTodo = todo
     },
     'MOVEUP_TODO' (state, index) {
       if (index === 0) {
@@ -94,23 +33,71 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    addTodo ({ commit }, todo) {
-      commit('ADD_TODO', todo)
+    async addTodo ({ commit }, todo) {
+      try {
+        await db.collection('todos').add({
+          task: todo.task,
+          details: todo.details
+        })
+        console.log('Document successfully written')
+        return 'Document successfully written'
+      } catch {
+        console.error('Error writing document')
+      }
     },
-    deleteTodo ({ commit }, todo) {
-      commit('DELETE_TODO', todo)
+    async deleteTodo ({ commit }, todoID) {
+      try {
+        await db.collection('todos')
+          .doc(todoID)
+          .delete()
+        console.log('delete success')
+        return 'delete success'
+      } catch {
+        console.log('delete error')
+      }
     },
-    editTodo ({ commit }, edittodo) {
-      commit('EDIT_TODO', edittodo)
-    },
-    loadTodos ({ commit }) {
-      commit('LOAD_TODO')
+    async loadTodos ({ commit }) {
+      try {
+        const todolist = []
+        const querySnapshot = await db.collection('todos').get()
+        querySnapshot.forEach(function (doc) {
+          const todo = {
+            id: doc.id,
+            task: doc.data().task,
+            details: doc.data().details
+          }
+          todolist.push(todo)
+        })
+        commit('SET_TODO', todolist)
+        return 'load success'
+      } catch {
+        console.log('loaddata error')
+      }
     },
     moveup ({ commit }, index) {
       commit('MOVEUP_TODO', index)
     },
     movedown ({ commit }, index) {
       commit('MOVEDOWN_TODO', index)
+    },
+    async getTodoDetail ({ commit }, todoID) {
+      const doc = await db.collection('todos').doc(todoID).get()
+      if (doc.exists) {
+        return doc.data()
+      }
+    },
+    async updateTodo ({ commit }, todo) {
+      try {
+        await db.collection('todos').doc(todo.id).set({
+          task: todo.task,
+          details: todo.details
+        })
+        console.log('update success!')
+        return 'update success!'
+      } catch {
+        console.log('update error!')
+        return 'update error!'
+      }
     }
   },
   getters: {
